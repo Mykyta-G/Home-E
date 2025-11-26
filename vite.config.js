@@ -8,6 +8,7 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: false,
   },
+  publicDir: 'assets', // Serve assets from the assets directory
   server: {
     port: 5173,
   },

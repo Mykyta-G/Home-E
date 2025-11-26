@@ -9,6 +9,7 @@ function createWindow() {
     height: 800,
     minWidth: 450,
     minHeight: 700,
+    icon: path.join(__dirname, 'assets', 'logo.png'), // Path to your logo
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
