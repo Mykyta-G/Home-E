@@ -26,53 +26,53 @@
         </div>
       </div>
 
-      <!-- Family Kids Management -->
+      <!-- Family Members Management -->
       <div class="section">
         <div class="section-header">
-          <h3 class="section-title">Family Kids</h3>
-          <button class="add-button" @click="showAddKid = true">
+          <h3 class="section-title">Family Members</h3>
+          <button class="add-button" @click="showAddMember = true">
             <svg class="add-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
-            Add Kid
+            Add Member
           </button>
         </div>
         <div class="kids-list">
           <div 
-            v-for="kid in familyKids" 
-            :key="kid.id" 
+            v-for="member in familyMembersStore.state.members" 
+            :key="member.id" 
             class="kid-card"
           >
             <div class="kid-avatar">
-              <span class="kid-initial">{{ getInitial(kid.name) }}</span>
+              <span class="kid-initial">{{ getInitial(member.name) }}</span>
             </div>
             <div class="kid-info">
               <div class="kid-name-row">
-                <span class="kid-name">{{ kid.name }}</span>
-                <div class="kid-role-badge" :class="getKidRoleClass(kid.role)" v-if="isKidGuardian(kid.role)">
+                <span class="kid-name">{{ member.name }}</span>
+                <div class="kid-role-badge" :class="getKidRoleClass(member.role)" v-if="isKidGuardian(member.role)">
                   <svg class="kid-crown-icon" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z"/>
                   </svg>
                 </div>
               </div>
-              <span class="kid-email">{{ kid.email }}</span>
+              <span class="kid-email">{{ member.email }}</span>
             </div>
             <div class="kid-actions">
               <label class="toggle-switch">
                 <input 
                   type="checkbox" 
-                  :checked="isKidGuardian(kid.role)"
-                  @change="toggleGuardian(kid.id)"
-                  :disabled="kid.id === currentUserId"
+                  :checked="isKidGuardian(member.role)"
+                  @change="toggleGuardian(member.id)"
+                  :disabled="member.id === familyMembersStore.state.currentUserId"
                 >
                 <span class="toggle-slider"></span>
                 <span class="toggle-label">Guardian</span>
               </label>
               <button 
                 class="remove-button" 
-                @click="removeKid(kid.id)"
-                :disabled="kid.id === currentUserId"
+                @click="removeMember(member.id)"
+                :disabled="member.id === familyMembersStore.state.currentUserId"
               >
                 <svg class="remove-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="3 6 5 6 21 6"></polyline>
@@ -156,12 +156,12 @@
       </div>
     </div>
 
-    <!-- Add Kid Modal -->
-    <div v-if="showAddKid" class="modal-overlay" @click="showAddKid = false">
+    <!-- Add Member Modal -->
+    <div v-if="showAddMember" class="modal-overlay" @click="showAddMember = false">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h3>Add Family Kid</h3>
-          <button class="modal-close" @click="showAddKid = false">
+          <h3>Add Family Member</h3>
+          <button class="modal-close" @click="showAddMember = false">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -171,23 +171,23 @@
         <div class="modal-body">
           <div class="input-group">
             <label>Name</label>
-            <input type="text" v-model="newKid.name" placeholder="Enter name">
+            <input type="text" v-model="newMember.name" placeholder="Enter name">
           </div>
           <div class="input-group">
             <label>Email</label>
-            <input type="email" v-model="newKid.email" placeholder="Enter email">
+            <input type="email" v-model="newMember.email" placeholder="Enter email">
           </div>
           <div class="input-group">
             <label>Role</label>
-            <select v-model="newKid.role">
+            <select v-model="newMember.role">
               <option value="Kid">Kid</option>
               <option value="Guardian">Guardian</option>
             </select>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="modal-cancel" @click="showAddKid = false">Cancel</button>
-          <button class="modal-confirm" @click="addKid">Add Kid</button>
+          <button class="modal-cancel" @click="showAddMember = false">Cancel</button>
+          <button class="modal-confirm" @click="addMember">Add Member</button>
         </div>
       </div>
     </div>
@@ -198,6 +198,7 @@
 
 <script>
 import Nav from '../components/nav.vue';
+import { familyMembersStore } from '../stores/familyMembers.js';
 
 export default {
   name: 'SettingsView',
@@ -260,42 +261,16 @@ export default {
           }
         }
       ],
-      showAddKid: false,
-      newKid: {
+      showAddMember: false,
+      newMember: {
         name: '',
         email: '',
         role: 'Kid'
       },
-      currentUserId: 1,
       currentUser: {
         email: 'john.doe@example.com'
       },
-      familyKids: [
-        {
-          id: 1,
-          name: 'John Doe',
-          email: 'john.doe@example.com',
-          role: 'Guardian'
-        },
-        {
-          id: 2,
-          name: 'Jane Doe',
-          email: 'jane.doe@example.com',
-          role: 'Guardian'
-        },
-        {
-          id: 3,
-          name: 'Alice Doe',
-          email: 'alice.doe@example.com',
-          role: 'Kid'
-        },
-        {
-          id: 4,
-          name: 'Bob Doe',
-          email: 'bob.doe@example.com',
-          role: 'Kid'
-        }
-      ],
+      familyMembersStore: familyMembersStore,
       settings: {
         notifications: {
           push: true,
@@ -368,26 +343,21 @@ export default {
     isKidGuardian(role) {
       return role.toLowerCase().includes('guardian');
     },
-    toggleGuardian(kidId) {
-      const kid = this.familyKids.find(k => k.id === kidId);
-      if (kid) {
-        kid.role = kid.role === 'Guardian' ? 'Kid' : 'Guardian';
-      }
+    toggleGuardian(memberId) {
+      this.familyMembersStore.toggleGuardian(memberId);
     },
-    removeKid(kidId) {
-      this.familyKids = this.familyKids.filter(k => k.id !== kidId);
+    removeMember(memberId) {
+      this.familyMembersStore.removeMember(memberId);
     },
-    addKid() {
-      if (this.newKid.name && this.newKid.email) {
-        const newId = Math.max(...this.familyKids.map(k => k.id)) + 1;
-        this.familyKids.push({
-          id: newId,
-          name: this.newKid.name,
-          email: this.newKid.email,
-          role: this.newKid.role
-        });
-        this.newKid = { name: '', email: '', role: 'Kid' };
-        this.showAddKid = false;
+    addMember() {
+      if (this.newMember.name && this.newMember.email) {
+        this.familyMembersStore.addMember(
+          this.newMember.name,
+          this.newMember.email,
+          this.newMember.role
+        );
+        this.newMember = { name: '', email: '', role: 'Kid' };
+        this.showAddMember = false;
       }
     }
   }
