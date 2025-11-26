@@ -8,12 +8,14 @@
 import { ref } from 'vue';
 import HomeView from './views/HomeView.vue';
 import ShoppingListView from './views/ShoppingListView.vue';
+import ProfileView from './views/ProfileView.vue';
 
 export default {
   name: 'App',
   components: {
     HomeView,
     ShoppingListView,
+    ProfileView,
   },
   setup() {
     const currentView = ref('HomeView');
@@ -37,14 +39,18 @@ body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: var(--primary-color);
+}
+
+html {
+  background: var(--primary-color);
 }
 
 #app {
-  padding: 10px;
   width: 100%;
   max-width: 100vw;
   box-sizing: border-box;
-  height: 100vh;
+  min-height: 100vh;
   background: var(--primary-color);
 }
 </style>
