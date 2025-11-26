@@ -4,7 +4,7 @@
     <button @click="goToShoppingList" class="nav-btn">
       Go to Shopping List
     </button>
-    <Nav @navigate="$emit('navigate', $event)" />
+    <Nav :currentView="currentView" @navigate="$emit('navigate', $event)" />
   </div>
 </template>
 
@@ -15,6 +15,12 @@ export default {
   name: 'HomeView',
   components: {
     Nav,
+  },
+  props: {
+    currentView: {
+      type: String,
+      default: 'HomeView'
+    }
   },
   emits: ['navigate'],
   methods: {

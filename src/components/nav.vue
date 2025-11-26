@@ -1,16 +1,19 @@
 <template>
   <div class="nav br-15">
-    <a @click.prevent="navigateTo('HomeView')" class="nav-item">
+    <a @click.prevent="navigateTo('HomeView')" class="nav-item" :class="{ active: isNavView && currentView === 'HomeView' }">
       <svg ref="homeIconRef" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
       <span class="nav-text">Home</span>
+      <div class="nav-underline"></div>
     </a>
-    <a @click.prevent class="nav-item">
+    <a @click.prevent="navigateTo('ProfileView')" class="nav-item" :class="{ active: isNavView && currentView === 'ProfileView' }">
       <svg ref="profileIconRef" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
       <span class="nav-text">Profile</span>
+      <div class="nav-underline"></div>
     </a>
-    <a @click.prevent class="nav-item">
+    <a @click.prevent="navigateTo('SettingsView')" class="nav-item" :class="{ active: isNavView && currentView === 'SettingsView' }">
       <svg ref="settingsIconRef" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
       <span class="nav-text">Settings</span>
+      <div class="nav-underline"></div>
     </a>
   </div>
 </template>
@@ -18,7 +21,18 @@
 <script>
 export default {
   name: 'Nav',
+  props: {
+    currentView: {
+      type: String,
+      default: 'HomeView'
+    }
+  },
   emits: ['navigate'],
+  computed: {
+    isNavView() {
+      return ['HomeView', 'ProfileView', 'SettingsView'].includes(this.currentView);
+    }
+  },
   mounted() {
     this.setIconContent(this.$refs.homeIconRef, this.getHomeIcon());
     this.setIconContent(this.$refs.profileIconRef, this.getProfileIcon());
@@ -75,6 +89,7 @@ export default {
   max-width: 120px;
   text-decoration: none;
   color: inherit;
+  position: relative;
 }
 
 .nav-item:hover {
@@ -104,5 +119,29 @@ export default {
   font-weight: 500;
   text-align: center;
   letter-spacing: 0.3px;
+}
+
+.nav-underline {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: width 0.3s ease;
+  border-radius: 1px;
+}
+
+.nav-item.active .nav-underline {
+  width: 60%;
+}
+
+.nav-item.active .nav-icon {
+  color: rgba(255, 255, 255, 1);
+}
+
+.nav-item.active .nav-text {
+  color: rgba(255, 255, 255, 1);
 }
 </style>
