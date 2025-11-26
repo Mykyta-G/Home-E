@@ -16,8 +16,8 @@
             <span class="avatar-initial">{{ userInitial }}</span>
           </div>
           <div class="user-info">
-            <h3 class="user-name">{{ user.name }}</h3>
-            <p class="user-email">{{ user.email }}</p>
+            <h3 class="user-name">{{ currentUser.name }}</h3>
+            <p class="user-email">{{ currentUser.email }}</p>
           </div>
         </div>
         <div class="role-badge" :class="roleClass" v-if="isAdmin">
@@ -31,17 +31,13 @@
       <div class="section">
         <h3 class="section-title">My Families</h3>
         <div class="family-list">
-          <div 
-            v-for="family in user.families" 
-            :key="family.id" 
-            class="family-card"
-          >
+          <div class="family-card">
             <div class="family-header">
-              <span class="family-name">{{ family.name }}</span>
+              <span class="family-name">The Family</span>
             </div>
             <div class="family-details">
-              <span class="family-role">{{ family.role }}</span>
-              <span class="family-members">{{ family.memberCount }} members</span>
+              <span class="family-role">{{ currentUser.role }}</span>
+              <span class="family-members">{{ familyMembersStore.state.members.length }} members</span>
             </div>
           </div>
         </div>
@@ -52,7 +48,7 @@
         <h3 class="section-title">Family Members</h3>
         <div class="members-list">
           <div 
-            v-for="member in familyMembers" 
+            v-for="member in familyMembersStore.state.members" 
             :key="member.id" 
             class="member-card"
           >
@@ -62,13 +58,13 @@
             <div class="member-info">
               <div class="member-name-row">
                 <span class="member-name">{{ member.name }}</span>
-                <div class="member-role-badge" :class="getMemberRoleClass(member.role)" v-if="isMemberAdmin(member.role)">
+                <div class="member-role-badge" :class="getMemberRoleClass(member.role)" v-if="isMemberGuardian(member.role)">
                   <svg class="member-crown-icon" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z"/>
                   </svg>
                 </div>
               </div>
-              <span class="member-role">{{ member.role }}</span>
+              <span class="member-email">{{ member.email }}</span>
             </div>
           </div>
         </div>
@@ -82,6 +78,7 @@
 
 <script>
 import Nav from '../components/nav.vue';
+import { familyMembersStore } from '../stores/familyMembers.js';
 
 export default {
   name: 'ProfileView',
@@ -97,65 +94,32 @@ export default {
   emits: ['navigate'],
   data() {
     return {
-      user: {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        role: 'Administrator',
-        families: [
-          {
-            id: 1,
-            name: 'The Doe Family',
-            role: 'Administrator',
-            memberCount: 4
-          },
-          {
-            id: 2,
-            name: 'Smith-Doe Family',
-            role: 'Member',
-            memberCount: 3
-          }
-        ]
-      },
-      familyMembers: [
-        {
-          id: 1,
-          name: 'John Doe',
-          role: 'Administrator',
-          familyId: 1
-        },
-        {
-          id: 2,
-          name: 'Jane Doe',
-          role: 'Administrator',
-          familyId: 1
-        },
-        {
-          id: 3,
-          name: 'Alice Doe',
-          role: 'Member',
-          familyId: 1
-        },
-        {
-          id: 4,
-          name: 'Bob Doe',
-          role: 'Member',
-          familyId: 1
-        }
-      ]
+      familyMembersStore: familyMembersStore
     };
   },
   computed: {
+    currentUser() {
+      const user = this.familyMembersStore.state.members.find(
+        m => m.id === this.familyMembersStore.state.currentUserId
+      );
+      return user || this.familyMembersStore.state.members[0] || {
+        name: 'User',
+        email: 'user@example.com',
+        role: 'Guardian'
+      };
+    },
     userInitial() {
-      return this.user.name.charAt(0).toUpperCase();
+      return this.currentUser.name.charAt(0).toUpperCase();
     },
     roleClass() {
-      const role = this.user.role.toLowerCase();
+      const role = this.currentUser.role.toLowerCase();
       if (role.includes('admin')) return 'role-admin';
       if (role.includes('parent') || role.includes('guardian')) return 'role-parent';
       return 'role-member';
     },
     isAdmin() {
-      return this.user.role.toLowerCase().includes('admin');
+      return this.currentUser.role.toLowerCase().includes('admin') || 
+             this.currentUser.role.toLowerCase().includes('guardian');
     }
   },
   methods: {
@@ -168,8 +132,8 @@ export default {
       if (roleLower.includes('parent') || roleLower.includes('guardian')) return 'member-role-parent';
       return 'member-role-member';
     },
-    isMemberAdmin(role) {
-      return role.toLowerCase().includes('admin');
+    isMemberGuardian(role) {
+      return role.toLowerCase().includes('guardian');
     }
   }
 };
@@ -423,6 +387,11 @@ export default {
   width: 14px;
   height: 14px;
   color: #ffc107;
+}
+
+.member-email {
+  font-size: 0.85rem;
+  opacity: 0.8;
 }
 
 .member-role {
