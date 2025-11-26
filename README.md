@@ -1,4 +1,4 @@
-# Ionic + Vue + Tailwind
+# Electron + Vue
 
 ## Install
 ```bash
@@ -10,10 +10,13 @@ npm install
 npm run dev
 ```
 
-## Build & Deploy
+## Build
 ```bash
 npm run build
-npm run cap:sync
-npm run cap:ios      # Open iOS
-npm run cap:android  # Open Android
 ```
+
+## Start (Production)
+```bash
+npm start
+```
+

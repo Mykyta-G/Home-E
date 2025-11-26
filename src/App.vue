@@ -1,16 +1,29 @@
 <template>
-  <ion-app>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Hello Ionic + Vue + Tailwind</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <h1 class="text-2xl font-bold">Hello Ionic + Vue + Tailwind</h1>
-    </ion-content>
-  </ion-app>
+  <div id="app">
+    <h1>Hello Electron + Vue</h1>
+  </div>
 </template>
 
-<script setup>
-import { IonApp, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue'
+<script>
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'App',
+});
 </script>
+
+<style>
+@import './main.css';
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+#app {
+  width: 100%;
+  height: 100vh;
+}
+</style>
+

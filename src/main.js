@@ -1,8 +1,5 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import { IonicVue } from '@ionic/vue'
-import './styles/main.css'
+import { createApp } from 'vue';
+import App from './App.vue';
 
-const app = createApp(App)
-app.use(IonicVue)
-app.mount('#app')
+createApp(App).mount('#app');
+
