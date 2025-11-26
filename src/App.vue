@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <component :is="currentView" @navigate="navigateTo" />
+    <component :is="currentView" :currentView="currentView" @navigate="navigateTo" />
   </div>
 </template>
 
