@@ -1,15 +1,33 @@
 <template>
   <div id="app">
-    <router-view />
+    <component :is="currentView" @navigate="navigateTo" />
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { ref } from 'vue';
+import HomeView from './views/HomeView.vue';
+import ShoppingListView from './views/ShoppingListView.vue';
 
-export default defineComponent({
+export default {
   name: 'App',
-});
+  components: {
+    HomeView,
+    ShoppingListView,
+  },
+  setup() {
+    const currentView = ref('HomeView');
+
+    const navigateTo = (view) => {
+      currentView.value = view;
+    };
+
+    return {
+      currentView,
+      navigateTo,
+    };
+  },
+};
 </script>
 
 <style>

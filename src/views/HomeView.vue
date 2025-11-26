@@ -1,10 +1,10 @@
 <template>
   <div class="home">
     <h2>Home</h2>
-    <button @click="$router.push('/shopping-list')" class="nav-btn">
+    <button @click="goToShoppingList" class="nav-btn">
       Go to Shopping List
     </button>
-    <Nav />
+    <Nav @navigate="$emit('navigate', $event)" />
   </div>
 </template>
 
@@ -15,6 +15,12 @@ export default {
   name: 'HomeView',
   components: {
     Nav,
+  },
+  emits: ['navigate'],
+  methods: {
+    goToShoppingList() {
+      this.$emit('navigate', 'ShoppingListView');
+    },
   },
 };
 </script>

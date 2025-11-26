@@ -5,12 +5,12 @@
     </header>
 
     <ShoppingListInput 
-      :categories="store.categories"
+      :categories="store.state.categories"
       @add-item="handleAddItem"
     />
 
     <div class="list-content">
-      <template v-for="(items, category) in store.itemsByCategory" :key="category">
+      <template v-for="(items, category) in store.itemsByCategory.value" :key="category">
         <ShoppingListGroup 
           v-if="items.length > 0"
           :title="category"
@@ -20,18 +20,17 @@
         />
       </template>
     </div>
-    <Nav />
+    <Nav @navigate="$emit('navigate', $event)" />
   </div>
 </template>
 
 <script setup>
-import Nav from '../components/Nav.vue';
-
-import { useShoppingListStore } from '../stores/shoppingList';
+import Nav from '../components/nav.vue';
+import { shoppingListStore as store } from '../stores/shoppingList';
 import ShoppingListInput from '../components/ShoppingList/ShoppingListInput.vue';
 import ShoppingListGroup from '../components/ShoppingList/ShoppingListGroup.vue';
 
-const store = useShoppingListStore();
+defineEmits(['navigate']);
 
 const handleAddItem = ({ name, category }) => {
   store.addItem(name, category);

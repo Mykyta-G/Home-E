@@ -1,14 +1,14 @@
 <template>
   <div class="nav br-15">
-    <a href="/" class="nav-item">
+    <a @click.prevent="navigateTo('HomeView')" class="nav-item">
       <svg ref="homeIconRef" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
       <span class="nav-text">Home</span>
     </a>
-    <a href="#" class="nav-item" @click.prevent>
+    <a @click.prevent class="nav-item">
       <svg ref="profileIconRef" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
       <span class="nav-text">Profile</span>
     </a>
-    <a href="#" class="nav-item" @click.prevent>
+    <a @click.prevent class="nav-item">
       <svg ref="settingsIconRef" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
       <span class="nav-text">Settings</span>
     </a>
@@ -18,12 +18,16 @@
 <script>
 export default {
   name: 'Nav',
+  emits: ['navigate'],
   mounted() {
     this.setIconContent(this.$refs.homeIconRef, this.getHomeIcon());
     this.setIconContent(this.$refs.profileIconRef, this.getProfileIcon());
     this.setIconContent(this.$refs.settingsIconRef, this.getSettingsIcon());
   },
   methods: {
+    navigateTo(view) {
+      this.$emit('navigate', view);
+    },
     setIconContent(svgElement, content) {
       if (svgElement) {
         svgElement.innerHTML = content;
