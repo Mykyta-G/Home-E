@@ -10,7 +10,7 @@ A beautiful, customizable family management application built with Vue 3 and Ele
 
 ---
 
-## 📖 The Story
+## The Story
 
 ### The Hackathon Journey
 
@@ -33,7 +33,7 @@ We're documenting our journey, learning from our mistakes, and building somethin
 
 ---
 
-## ✨ Features
+## Features
 
 ### Dashboard
 - **Customizable Widget System** - Drag-and-drop widgets with smart layout optimization
@@ -156,7 +156,7 @@ Family Hub was designed with these principles in mind:
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 ### Phase 1: Hackathon MVP 
 - [x] Desktop app with Electron
