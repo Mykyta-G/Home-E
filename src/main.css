@@ -1,12 +1,20 @@
 /* Add your global styles here */
 :root {
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  --tertiary-color: #515ada;
-  --quaternary-color: #424890;
-  --quinary-color: #33387a;
-  --senary-color: #24285a;
-  --septenary-color: #15183a;
+  --white: #ffffff;
+  --ink-black: #00171f;
+  --deep-space-blue: #003459;
+  --cerulean: #007ea7;
+  --fresh-sky: #00a8e8;
+  
+  --primary-color: var(--fresh-sky);
+  --secondary-color: var(--cerulean);
+  --tertiary-color: var(--deep-space-blue);
+  --background-dark: var(--ink-black);
+  --text-light: var(--white);
+}
+
+.br-15 {
+  border-radius: 15px;
 }
 
 /* Hide scrollbar while maintaining scroll functionality */
