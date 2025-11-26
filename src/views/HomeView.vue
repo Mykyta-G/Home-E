@@ -26,7 +26,9 @@
       </div>
     </div>
     
-    <AddWidgetButton @add-widget="handleAddWidget" />
+    <div class="dashboard-controls">
+      <AddWidgetButton @add-widget="handleAddWidget" />
+    </div>
     <Nav :currentView="currentView" @navigate="$emit('navigate', $event)" />
   </div>
 </template>
@@ -378,5 +380,15 @@ export default {
 .dashboard-grid > * {
   min-width: 0;
   width: 100%;
+}
+
+.dashboard-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
 }
 </style>
