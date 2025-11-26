@@ -42,6 +42,8 @@ body {
 #app {
   padding: 10px;
   width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
   height: 100vh;
   background: var(--primary-color);
 }
