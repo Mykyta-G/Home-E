@@ -402,6 +402,7 @@ export default {
   margin: 0 auto;
   color: white;
   min-height: 100vh;
+  background: transparent;
 }
 
 .header {
@@ -432,9 +433,11 @@ export default {
 
 /* Section */
 .section {
-  background: var(--secondary-color);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
+  backdrop-filter: blur(20px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -460,12 +463,13 @@ export default {
 }
 
 .theme-option {
-  background: var(--tertiary-color);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 12px;
   cursor: pointer;
+  backdrop-filter: blur(10px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 2px solid transparent;
 }
 
 .theme-option:hover {
@@ -497,18 +501,20 @@ export default {
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  background: var(--tertiary-color);
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   color: white;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
+  backdrop-filter: blur(10px);
   transition: background 0.2s ease;
 }
 
 .add-button:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .add-icon {
@@ -524,12 +530,14 @@ export default {
 }
 
 .kid-card {
-  background: var(--tertiary-color);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 16px;
   display: flex;
   align-items: center;
   gap: 12px;
+  backdrop-filter: blur(10px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
 }
@@ -668,11 +676,12 @@ export default {
 /* Remove Button */
 .remove-button {
   padding: 8px;
-  background: rgba(244, 67, 54, 0.2);
-  border: none;
+  background: rgba(244, 67, 54, 0.15);
+  border: 1px solid rgba(244, 67, 54, 0.2);
   border-radius: 8px;
   color: #f44336;
   cursor: pointer;
+  backdrop-filter: blur(10px);
   transition: background 0.2s ease;
   display: flex;
   align-items: center;
@@ -683,7 +692,8 @@ export default {
 }
 
 .remove-button:hover:not(:disabled) {
-  background: rgba(244, 67, 54, 0.3);
+  background: rgba(244, 67, 54, 0.25);
+  border-color: rgba(244, 67, 54, 0.3);
 }
 
 .remove-button:disabled {
@@ -731,20 +741,22 @@ export default {
 /* Edit Button */
 .edit-button {
   padding: 8px 16px;
-  background: var(--tertiary-color);
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   color: white;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
+  backdrop-filter: blur(10px);
   transition: background 0.2s ease;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .edit-button:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .delete-account-button {

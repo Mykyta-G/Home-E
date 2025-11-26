@@ -183,6 +183,7 @@ export default {
   margin: 0 auto;
   color: white;
   min-height: 100vh;
+  background: transparent;
 }
 
 .header {
@@ -217,12 +218,14 @@ export default {
 
 /* Profile Card */
 .profile-card {
-  background: var(--secondary-color);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  backdrop-filter: blur(20px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -297,9 +300,11 @@ export default {
 
 /* Section */
 .section {
-  background: var(--secondary-color);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
+  backdrop-filter: blur(20px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -317,9 +322,11 @@ export default {
 }
 
 .family-card {
-  background: var(--tertiary-color);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 16px;
+  backdrop-filter: blur(10px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -359,12 +366,14 @@ export default {
 }
 
 .member-card {
-  background: var(--tertiary-color);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 16px;
   display: flex;
   align-items: center;
   gap: 16px;
+  backdrop-filter: blur(10px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 

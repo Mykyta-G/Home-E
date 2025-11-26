@@ -71,6 +71,7 @@ const totalItems = computed(() => store.state.items.length);
   margin: 0 auto;
   color: white;
   min-height: 100vh;
+  background: transparent;
 }
 
 /* Modern header */

@@ -140,6 +140,7 @@ const handleAddActivity = () => {
   margin: 0 auto;
   color: white;
   min-height: 100vh;
+  background: transparent;
 }
 
 /* Modern header */

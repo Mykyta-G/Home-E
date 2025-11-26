@@ -135,6 +135,7 @@ const handleMessageChange = (event) => {
   min-height: 100vh;
   box-sizing: border-box;
   overflow-y: auto;
+  background: transparent;
 }
 
 /* iOS-style header */
