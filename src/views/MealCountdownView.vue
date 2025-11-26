@@ -32,27 +32,33 @@
         </div>
       </div>
 
-      <!-- Time Settings -->
+      <!-- Duration Settings -->
       <div class="section">
-        <h2 class="section-title">Meal Time</h2>
-        <div class="time-inputs">
-          <div class="time-input-group">
-            <label class="time-label">Lunch Time</label>
+        <h2 class="section-title">Countdown Duration</h2>
+        <div class="duration-inputs">
+          <div class="duration-input-group">
+            <label class="duration-label">Minutes until Lunch</label>
             <input
-              type="time"
-              class="time-input"
-              :value="store.state.lunchTime"
-              @change="handleLunchTimeChange"
+              type="number"
+              min="1"
+              max="1440"
+              class="duration-input"
+              :value="store.state.lunchDuration"
+              @input="handleLunchDurationChange"
             />
+            <span class="duration-unit">minutes</span>
           </div>
-          <div class="time-input-group">
-            <label class="time-label">Dinner Time</label>
+          <div class="duration-input-group">
+            <label class="duration-label">Minutes until Dinner</label>
             <input
-              type="time"
-              class="time-input"
-              :value="store.state.dinnerTime"
-              @change="handleDinnerTimeChange"
+              type="number"
+              min="1"
+              max="1440"
+              class="duration-input"
+              :value="store.state.dinnerDuration"
+              @input="handleDinnerDurationChange"
             />
+            <span class="duration-unit">minutes</span>
           </div>
         </div>
       </div>
@@ -93,22 +99,6 @@
           <span v-else>Start Countdown</span>
         </button>
       </div>
-
-      <!-- Send Message Section -->
-      <div class="section send-section">
-        <h2 class="section-title">Send Notification</h2>
-        <button
-          class="send-btn"
-          @click="handleSendMessage"
-          :disabled="!store.state.isActive"
-        >
-          <Icon name="send" size="sm" class="btn-icon" />
-          Send Message to All
-        </button>
-        <p class="send-hint" v-if="!store.state.isActive">
-          Start the countdown to enable sending messages
-        </p>
-      </div>
     </div>
 
     <Nav @navigate="$emit('navigate', $event)" />
@@ -122,29 +112,16 @@ import { mealCountdownStore as store } from '../stores/mealCountdown';
 
 defineEmits(['navigate']);
 
-const handleLunchTimeChange = (event) => {
-  store.setLunchTime(event.target.value);
+const handleLunchDurationChange = (event) => {
+  store.setLunchDuration(event.target.value);
 };
 
-const handleDinnerTimeChange = (event) => {
-  store.setDinnerTime(event.target.value);
+const handleDinnerDurationChange = (event) => {
+  store.setDinnerDuration(event.target.value);
 };
 
 const handleMessageChange = (event) => {
   store.setMessage(event.target.value);
-};
-
-const handleSendMessage = () => {
-  if (!store.state.isActive) return;
-  
-  const message = `${store.state.message} ${store.humanReadableTimeRemaining.value}`;
-  
-  // Here you would integrate with your messaging system
-  // For now, we'll use a simple alert/console log
-  alert(`Message sent to all: "${message}"`);
-  console.log('Sending message:', message);
-  
-  // TODO: Integrate with actual messaging API/service
 };
 </script>
 
@@ -248,26 +225,26 @@ const handleSendMessage = () => {
   font-weight: 500;
 }
 
-/* Time Inputs */
-.time-inputs {
+/* Duration Inputs */
+.duration-inputs {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-.time-input-group {
+.duration-input-group {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 }
 
-.time-label {
+.duration-label {
   font-size: 14px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
 }
 
-.time-input {
+.duration-input {
   padding: var(--spacing-md);
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -275,12 +252,19 @@ const handleSendMessage = () => {
   color: white;
   font-size: 16px;
   font-family: inherit;
+  width: 100%;
 }
 
-.time-input:focus {
+.duration-input:focus {
   outline: none;
   border-color: var(--secondary-color);
   background: rgba(255, 255, 255, 0.08);
+}
+
+.duration-unit {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: var(--spacing-xs);
 }
 
 /* Message Input */
@@ -371,47 +355,6 @@ const handleSendMessage = () => {
 .countdown-toggle-btn.active {
   background: var(--secondary-color);
   border-color: var(--secondary-color);
-}
-
-/* Send Button */
-.send-btn {
-  width: 100%;
-  padding: var(--spacing-md);
-  background: var(--secondary-color);
-  border: 2px solid var(--secondary-color);
-  border-radius: var(--radius-md);
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-sm);
-}
-
-.send-btn:hover:not(:disabled) {
-  background: rgba(0, 120, 167, 0.9);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 120, 167, 0.4);
-}
-
-.send-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.send-hint {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
-  margin: var(--spacing-sm) 0 0 0;
-  text-align: center;
-}
-
-.send-section {
-  margin-bottom: 0;
-  padding-bottom: var(--spacing-2xl);
 }
 
 /* Mobile adjustments */

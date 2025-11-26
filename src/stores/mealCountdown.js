@@ -2,8 +2,8 @@ import { reactive, computed } from 'vue';
 
 const state = reactive({
   mealType: 'lunch', // 'lunch' or 'dinner'
-  lunchTime: '12:00', // Default lunch time (12:00 PM)
-  dinnerTime: '18:00', // Default dinner time (6:00 PM)
+  lunchDuration: 30, // Default lunch duration in minutes
+  dinnerDuration: 30, // Default dinner duration in minutes
   message: 'Lunch will be served in', // Default message
   isActive: false, // Whether countdown is active
   targetTime: null, // Target time for countdown
@@ -80,15 +80,15 @@ const setMealType = (type) => {
   updateMessage();
 };
 
-const setLunchTime = (time) => {
-  state.lunchTime = time;
+const setLunchDuration = (minutes) => {
+  state.lunchDuration = Math.max(1, parseInt(minutes) || 30);
   if (state.isActive && state.mealType === 'lunch') {
     startCountdown();
   }
 };
 
-const setDinnerTime = (time) => {
-  state.dinnerTime = time;
+const setDinnerDuration = (minutes) => {
+  state.dinnerDuration = Math.max(1, parseInt(minutes) || 30);
   if (state.isActive && state.mealType === 'dinner') {
     startCountdown();
   }
@@ -106,22 +106,41 @@ const updateMessage = () => {
   }
 };
 
+const sendNotification = () => {
+  const durationMinutes = state.mealType === 'lunch' ? state.lunchDuration : state.dinnerDuration;
+  
+  // Format duration for message
+  let durationText = '';
+  if (durationMinutes >= 60) {
+    const hours = Math.floor(durationMinutes / 60);
+    const minutes = durationMinutes % 60;
+    durationText = minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
+  } else {
+    durationText = `${durationMinutes}m`;
+  }
+  
+  const message = `${state.message} ${durationText}`;
+  
+  // Here you would integrate with your messaging system
+  // For now, we'll use a simple console log
+  console.log('Sending notification to all:', message);
+  
+  // TODO: Integrate with actual messaging API/service
+  // Example: messagingService.sendToAll(message);
+};
+
 const startCountdown = () => {
-  const timeString = state.mealType === 'lunch' ? state.lunchTime : state.dinnerTime;
-  const [hours, minutes] = timeString.split(':').map(Number);
+  const durationMinutes = state.mealType === 'lunch' ? state.lunchDuration : state.dinnerDuration;
   
   const now = new Date();
-  const target = new Date();
-  target.setHours(hours, minutes, 0, 0);
-  
-  // If target time has passed today, set it for tomorrow
-  if (target <= now) {
-    target.setDate(target.getDate() + 1);
-  }
+  const target = new Date(now.getTime() + durationMinutes * 60 * 1000);
   
   state.targetTime = target.toISOString();
   state.isActive = true;
   updateMessage();
+  
+  // Automatically send notification when countdown starts
+  sendNotification();
 };
 
 const stopCountdown = () => {
@@ -165,8 +184,8 @@ export const mealCountdownStore = {
   formattedTimeRemaining,
   humanReadableTimeRemaining,
   setMealType,
-  setLunchTime,
-  setDinnerTime,
+  setLunchDuration,
+  setDinnerDuration,
   setMessage,
   startCountdown,
   stopCountdown,
