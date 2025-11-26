@@ -20,10 +20,13 @@
         />
       </template>
     </div>
+    <Nav />
   </div>
 </template>
 
 <script setup>
+import Nav from '../components/Nav.vue';
+
 import { useShoppingListStore } from '../stores/shoppingList';
 import ShoppingListInput from '../components/ShoppingList/ShoppingListInput.vue';
 import ShoppingListGroup from '../components/ShoppingList/ShoppingListGroup.vue';
