@@ -47,24 +47,29 @@
         </div>
       </div>
 
-      <!-- Quick Stats Section -->
+      <!-- Family Members Section -->
       <div class="section">
-        <h3 class="section-title">Quick Stats</h3>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">🛒</div>
-            <div class="stat-value">{{ stats.activeLists }}</div>
-            <div class="stat-label">Active Lists</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">✅</div>
-            <div class="stat-value">{{ stats.completedTasks }}</div>
-            <div class="stat-label">Completed Tasks</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">🗓️</div>
-            <div class="stat-value">{{ stats.upcomingEvents }}</div>
-            <div class="stat-label">Upcoming Events</div>
+        <h3 class="section-title">Family Members</h3>
+        <div class="members-list">
+          <div 
+            v-for="member in familyMembers" 
+            :key="member.id" 
+            class="member-card"
+          >
+            <div class="member-avatar">
+              <span class="member-initial">{{ getInitial(member.name) }}</span>
+            </div>
+            <div class="member-info">
+              <div class="member-name-row">
+                <span class="member-name">{{ member.name }}</span>
+                <div class="member-role-badge" :class="getMemberRoleClass(member.role)" v-if="isMemberAdmin(member.role)">
+                  <svg class="member-crown-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z"/>
+                  </svg>
+                </div>
+              </div>
+              <span class="member-role">{{ member.role }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -111,11 +116,32 @@ export default {
           }
         ]
       },
-      stats: {
-        activeLists: 3,
-        completedTasks: 12,
-        upcomingEvents: 5
-      }
+      familyMembers: [
+        {
+          id: 1,
+          name: 'John Doe',
+          role: 'Administrator',
+          familyId: 1
+        },
+        {
+          id: 2,
+          name: 'Jane Doe',
+          role: 'Administrator',
+          familyId: 1
+        },
+        {
+          id: 3,
+          name: 'Alice Doe',
+          role: 'Member',
+          familyId: 1
+        },
+        {
+          id: 4,
+          name: 'Bob Doe',
+          role: 'Member',
+          familyId: 1
+        }
+      ]
     };
   },
   computed: {
@@ -130,6 +156,20 @@ export default {
     },
     isAdmin() {
       return this.user.role.toLowerCase().includes('admin');
+    }
+  },
+  methods: {
+    getInitial(name) {
+      return name.charAt(0).toUpperCase();
+    },
+    getMemberRoleClass(role) {
+      const roleLower = role.toLowerCase();
+      if (roleLower.includes('admin')) return 'member-role-admin';
+      if (roleLower.includes('parent') || roleLower.includes('guardian')) return 'member-role-parent';
+      return 'member-role-member';
+    },
+    isMemberAdmin(role) {
+      return role.toLowerCase().includes('admin');
     }
   }
 };
@@ -311,39 +351,84 @@ export default {
   text-transform: capitalize;
 }
 
-/* Stats Grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+/* Members List */
+.members-list {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
-.stat-card {
+.member-card {
   background: var(--tertiary-color);
   border-radius: 12px;
   padding: 16px;
-  text-align: center;
-  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.stat-card:hover {
-  transform: scale(1.05);
+.member-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.stat-icon {
-  font-size: 1.8rem;
-  margin-bottom: 8px;
+.member-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  flex-shrink: 0;
 }
 
-.stat-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 4px;
+.member-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.stat-label {
-  font-size: 0.8rem;
+.member-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.member-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.member-role-badge {
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member-role-admin {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.member-crown-icon {
+  width: 14px;
+  height: 14px;
+  color: #ffc107;
+}
+
+.member-role {
+  font-size: 0.85rem;
   opacity: 0.8;
+  text-transform: capitalize;
 }
 </style>
 
