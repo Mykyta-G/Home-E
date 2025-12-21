@@ -1,6 +1,8 @@
 # Home-E - A Hackathon Story
 
-<img width="441" height="546" alt="Screenshot 2025-12-21 at 20 45 54" src="https://github.com/user-attachments/assets/5c5861c9-c233-499d-947f-bf9255158752" />
+
+<img width="448" height="672" alt="Screenshot 2025-12-21 at 20 55 03" src="https://github.com/user-attachments/assets/64c0e7aa-f570-49a6-a7b9-6bfd4f2d7f46" />
+
 
 > **Built with sweat, tears, and pure determination during HetchHacks 2025**
 
